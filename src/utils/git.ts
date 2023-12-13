@@ -1,4 +1,4 @@
-import { execa } from "npm:execa";
+import { execa } from "npm:execa@7.0.0";
 import { KnownError } from "./error.ts";
 
 export const assertGitRepo = async () => {

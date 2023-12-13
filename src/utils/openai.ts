@@ -5,7 +5,7 @@ import type {
 import {
 	type TiktokenModel,
 	// encoding_for_model,
-} from "npm:@dqbd/tiktoken";
+} from "npm:@dqbd/tiktoken@1.0.2";
 import { KnownError } from "./error.ts";
 import { generatePrompt } from "./prompt.ts";
 

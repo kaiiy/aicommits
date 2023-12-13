@@ -1,5 +1,4 @@
-import { dim } from "npm:kolorist";
-import { version } from "../../package.json" with { type: "json" };
+import { dim } from "npm:kolorist@1.7.0";
 
 export class KnownError extends Error {}
 
@@ -10,7 +9,7 @@ export const handleCliError = (error: unknown) => {
 		if (error.stack) {
 			console.error(dim(error.stack.split("\n").slice(1).join("\n")));
 		}
-		console.error(`\n${indent}${dim(`aicommits v${version}`)}`);
+		console.error(`\n${indent}${dim("aicommits v0.0.1")}`);
 		console.error(
 			`\n${indent}Please open a Bug report with the information above:`,
 		);

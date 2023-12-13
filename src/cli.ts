@@ -1,43 +1,26 @@
-import { cli } from "npm:cleye";
-import { description, version } from "../package.json" with { type: "json" };
 import aicommits from "./commands/aicommits.ts";
 
-const rawArgv = Deno.args;
+import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
 
-cli(
-	{
-		name: "aicommits",
-
-		version,
-
-		/**
-		 * Since this is a wrapper around `git commit`,
-		 * flags should not overlap with it
-		 * https://git-scm.com/docs/git-commit
-		 */
-		flags: {
-			exclude: {
-				type: [String],
-				description: "Files to exclude from AI analysis",
-				alias: "x",
-			},
-			all: {
-				type: Boolean,
-				description:
-					"Automatically stage changes in tracked files for the commit",
-				alias: "a",
-				default: false,
-			},
+await new Command()
+	.name("aicommits")
+	.version("0.1.0")
+	.description("Writes your git commit messages for you with AI")
+	.option(
+		"-x, --exclude <exclude:string[]>",
+		"Files to exclude from AI analysis",
+		{
+			default: [],
 		},
-
-		help: {
-			description,
+	)
+	.option(
+		"-a, --all",
+		"Automatically stage changes in tracked files for the commit",
+		{
+			default: false,
 		},
-
-		ignoreArgv: (type) => type === "unknown-flag" || type === "argument",
-	},
-	(argv) => {
-		aicommits(argv.flags.exclude, argv.flags.all, rawArgv);
-	},
-	rawArgv,
-);
+	)
+	.action(({ exclude, all }) => {
+		aicommits(exclude, all, Deno.args);
+	})
+	.parse();

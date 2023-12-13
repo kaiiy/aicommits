@@ -1,5 +1,5 @@
-import { execa } from "npm:execa";
-import { bgCyan, black, dim, green, red } from "npm:kolorist";
+import { execa } from "npm:execa@7.0.0";
+import { bgCyan, black, dim, green, red } from "npm:kolorist@1.7.0";
 import {
 	confirm,
 	intro,

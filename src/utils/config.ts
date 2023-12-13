@@ -1,4 +1,4 @@
-import type { TiktokenModel } from "npm:@dqbd/tiktoken";
+import type { TiktokenModel } from "npm:@dqbd/tiktoken@1.0.2";
 import { KnownError } from "./error.ts";
 
 const parseAssert = (name: string, condition: unknown, message: string) => {
