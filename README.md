@@ -11,56 +11,38 @@
 
 ## Setup
 
-> The minimum supported version of Node.js is the latest v14. Check your Node.js version with `node --version`.
+1. Retrieve your API key from [OpenAI](https://platform.openai.com/account/api-keys)
 
+	> Note: If you haven't already, you'll have to create an account and set up billing.
 
-1. Install _aicommits_:
+2. Set the key so aicommits can use it:
 
-    ```sh
-    npm install -g aicommits
-    ```
+	```sh
+	$ export OPENAI_API_KEY=<your key here>
+	```
 
-2. Retrieve your API key from [OpenAI](https://platform.openai.com/account/api-keys)
+3. Install the CLI:
 
-    > Note: If you haven't already, you'll have to create an account and set up billing.
-
-3. Set the key so aicommits can use it:
-
-    ```sh
-    aicommits config set OPENAI_KEY=<your token>
-    ```
-
-    This will create a `.aicommits` file in your home directory.
-
-
-### Upgrading
-
-Check the installed version with:
-```
-aicommits --version
-```
-
-If it's not the [latest version](https://github.com/Nutlope/aicommits/releases/latest), run:
-
-```sh
-npm update -g aicommits
-```
+	```sh
+	$ deno install --allow-read --allow-env --allow-run --allow-net --name aicommits https://raw.githubusercontent.com/kaiiy/aicommits/develop/src/cli.ts
+	```
 
 ## Usage
+
 ### CLI mode
 
 You can call `aicommits` directly to generate a commit message for your staged changes:
 
 ```sh
-git add <files...>
-aicommits
+$ git add <files...>
+$ aicommits
 ```
 
 `aicommits` passes down unknown flags to `git commit`, so you can pass in [`commit` flags](https://git-scm.com/docs/git-commit).
 
 For example, you can stage all changes in tracked files with as you commit:
 ```sh
-aicommits --all # or -a
+$ aicommits --all # or -a
 ```
 
 > 👉 **Tip:** Use the `aic` alias if `aicommits` is too long for you.
@@ -68,9 +50,10 @@ aicommits --all # or -a
 #### Usage
 
 1. Stage your files and commit:
+
     ```sh
-    git add <files...>
-    git commit # Only generates a message when it's not passed in
+    $ git add <files...>
+    $ git commit # Only generates a message when it's not passed in
     ```
 
     > If you ever want to write your own message instead of generating one, you can simply pass one in: `git commit -m "My message"`
