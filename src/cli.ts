@@ -1,8 +1,6 @@
 import { cli } from "cleye";
 import { description, version } from "../package.json";
 import aicommits from "./commands/aicommits.js";
-import prepareCommitMessageHook from "./commands/prepare-commit-msg-hook.js";
-import hookCommand, { isCalledFromGitHook } from "./commands/hook.js";
 
 const rawArgv = process.argv.slice(2);
 
@@ -32,8 +30,6 @@ cli(
 			},
 		},
 
-		commands: [hookCommand],
-
 		help: {
 			description,
 		},
@@ -41,11 +37,7 @@ cli(
 		ignoreArgv: (type) => type === "unknown-flag" || type === "argument",
 	},
 	(argv) => {
-		if (isCalledFromGitHook) {
-			prepareCommitMessageHook();
-		} else {
-			aicommits(argv.flags.exclude, argv.flags.all, rawArgv);
-		}
+		aicommits(argv.flags.exclude, argv.flags.all, rawArgv);
 	},
 	rawArgv,
 );
