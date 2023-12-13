@@ -81,7 +81,6 @@ type ValidConfig = {
 
 export const getConfig = (
   cliConfig?: RawConfig,
-  suppressErrors?: boolean,
 ): ValidConfig => {
   const config = Object.create(null);
   const parsedConfig: Record<string, unknown> = {};
@@ -90,13 +89,7 @@ export const getConfig = (
     const parser = configParsers[key];
     const value = cliConfig?.[key] ?? config[key];
 
-    if (suppressErrors) {
-      try {
-        parsedConfig[key] = parser(value);
-      } catch {}
-    } else {
-      parsedConfig[key] = parser(value);
-    }
+    parsedConfig[key] = parser(value);
   }
 
   return parsedConfig as ValidConfig;
