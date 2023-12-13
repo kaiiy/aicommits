@@ -53,6 +53,7 @@ export default async (
 		const config = await getConfig({
 			OPENAI_KEY: env.OPENAI_KEY || env.OPENAI_API_KEY,
 		});
+		console.log(config);
 
 		const s = spinner();
 		s.start("The AI is analyzing your changes");
