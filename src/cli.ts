@@ -19,7 +19,7 @@ await new Command()
       default: false,
     },
   )
-  .action(({ exclude, all }) => {
-    aicommits(exclude, all, Deno.args);
+  .action(async ({ exclude, all }) => {
+    await aicommits(exclude, all, Deno.args);
   })
   .parse();
