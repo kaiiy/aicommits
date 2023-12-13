@@ -9,7 +9,6 @@ import {
 	// encoding_for_model,
 } from "@dqbd/tiktoken";
 import { KnownError } from "./error.js";
-import type { CommitType } from "./config.js";
 import { generatePrompt } from "./prompt.js";
 
 const httpsPost = async (

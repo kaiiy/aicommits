@@ -1,14 +1,7 @@
-import fs from "fs/promises";
-import path from "path";
-import os from "os";
-import ini from "ini";
 import type { TiktokenModel } from "@dqbd/tiktoken";
-import { fileExists } from "./fs.js";
 import { KnownError } from "./error.js";
 
 const commitTypes = ["", "conventional"] as const;
-
-export type CommitType = (typeof commitTypes)[number];
 
 const parseAssert = (name: string, condition: unknown, message: string) => {
 	if (!condition) {
@@ -40,15 +33,6 @@ const configParsers = {
 			"Must be a valid locale (letters and dashes/underscores). You can consult the list of codes in: https://wikipedia.org/wiki/List_of_ISO_639-1_codes",
 		);
 		return locale;
-	},
-	proxy(url?: string) {
-		if (!url || url.length === 0) {
-			return undefined;
-		}
-
-		parseAssert("proxy", /^https?:\/\//.test(url), "Must be a valid URL");
-
-		return url;
 	},
 	model(model?: string) {
 		if (!model || model.length === 0) {
@@ -93,27 +77,15 @@ type RawConfig = {
 	[key in ConfigKeys]?: string;
 };
 
-export type ValidConfig = {
+type ValidConfig = {
 	[Key in ConfigKeys]: ReturnType<(typeof configParsers)[Key]>;
 };
 
-const configPath = path.join(os.homedir(), ".aicommits");
-
-const readConfigFile = async (): Promise<RawConfig> => {
-	const configExists = await fileExists(configPath);
-	if (!configExists) {
-		return Object.create(null);
-	}
-
-	const configString = await fs.readFile(configPath, "utf8");
-	return ini.parse(configString);
-};
-
-export const getConfig = async (
+export const getConfig = (
 	cliConfig?: RawConfig,
 	suppressErrors?: boolean,
-): Promise<ValidConfig> => {
-	const config = await readConfigFile();
+): ValidConfig => {
+	const config = Object.create(null);
 	const parsedConfig: Record<string, unknown> = {};
 
 	for (const key of Object.keys(configParsers) as ConfigKeys[]) {

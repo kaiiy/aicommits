@@ -50,10 +50,9 @@ export default async (
 		);
 
 		const { env } = process;
-		const config = await getConfig({
+		const config = getConfig({
 			OPENAI_KEY: env.OPENAI_KEY || env.OPENAI_API_KEY,
 		});
-		console.log(config);
 
 		const s = spinner();
 		s.start("The AI is analyzing your changes");
