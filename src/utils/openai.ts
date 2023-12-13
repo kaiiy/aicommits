@@ -131,7 +131,6 @@ export const generateCommitMessage = async (
 	locale: string,
 	diff: string,
 	maxLength: number,
-	type: CommitType,
 	timeout: number,
 ) => {
 	try {
@@ -142,7 +141,7 @@ export const generateCommitMessage = async (
 				messages: [
 					{
 						role: "system",
-						content: generatePrompt(locale, maxLength, type),
+						content: generatePrompt(locale, maxLength),
 					},
 					{
 						role: "user",

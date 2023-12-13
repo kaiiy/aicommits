@@ -45,7 +45,6 @@ export default () =>
 				config.locale,
 				staged?.diff,
 				config["max-length"],
-				config.type,
 				config.timeout,
 			);
 		} finally {
