@@ -1,5 +1,5 @@
-import { dim } from "kolorist";
-import { version } from "../../package.json";
+import { dim } from "npm:kolorist";
+import { version } from "../../package.json" with { type: "json" };
 
 export class KnownError extends Error {}
 

@@ -1,8 +1,8 @@
-import { cli } from "cleye";
-import { description, version } from "../package.json";
-import aicommits from "./commands/aicommits.js";
+import { cli } from "npm:cleye";
+import { description, version } from "../package.json" with { type: "json" };
+import aicommits from "./commands/aicommits.ts";
 
-const rawArgv = process.argv.slice(2);
+const rawArgv = Deno.args;
 
 cli(
 	{

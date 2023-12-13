@@ -1,7 +1,5 @@
-import type { TiktokenModel } from "@dqbd/tiktoken";
-import { KnownError } from "./error.js";
-
-const commitTypes = ["", "conventional"] as const;
+import type { TiktokenModel } from "npm:@dqbd/tiktoken";
+import { KnownError } from "./error.ts";
 
 const parseAssert = (name: string, condition: unknown, message: string) => {
 	if (!condition) {

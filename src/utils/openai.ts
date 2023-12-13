@@ -1,15 +1,13 @@
-import https from "https";
-import type { ClientRequest, IncomingMessage } from "http";
 import type {
 	CreateChatCompletionRequest,
 	CreateChatCompletionResponse,
-} from "openai";
+} from "npm:openai@3.2.1";
 import {
 	type TiktokenModel,
 	// encoding_for_model,
-} from "@dqbd/tiktoken";
-import { KnownError } from "./error.js";
-import { generatePrompt } from "./prompt.js";
+} from "npm:@dqbd/tiktoken";
+import { KnownError } from "./error.ts";
+import { generatePrompt } from "./prompt.ts";
 
 const httpsPost = async (
 	hostname: string,
@@ -17,51 +15,47 @@ const httpsPost = async (
 	headers: Record<string, string>,
 	json: unknown,
 	timeout: number,
-) =>
-	new Promise<{
-		request: ClientRequest;
-		response: IncomingMessage;
-		data: string;
-	}>((resolve, reject) => {
-		const postContent = JSON.stringify(json);
-		const request = https.request(
-			{
-				port: 443,
-				hostname,
-				path,
-				method: "POST",
-				headers: {
-					...headers,
-					"Content-Type": "application/json",
-					"Content-Length": Buffer.byteLength(postContent),
-				},
-				timeout,
-			},
-			(response) => {
-				const body: Buffer[] = [];
-				response.on("data", (chunk) => body.push(chunk));
-				response.on("end", () => {
-					resolve({
-						request,
-						response,
-						data: Buffer.concat(body).toString(),
-					});
-				});
-			},
-		);
-		request.on("error", reject);
-		request.on("timeout", () => {
-			request.destroy();
-			reject(
-				new KnownError(
-					`Time out error: request took over ${timeout}ms. Try increasing the \`timeout\` config, or checking the OpenAI API status https://status.openai.com`,
-				),
-			);
-		});
+): Promise<{
+	response: Response;
+	data: string;
+}> => {
+	const postContent = JSON.stringify(json);
+	const url = `https://${hostname}${path}`;
 
-		request.write(postContent);
-		request.end();
+	const timeoutPromise = new Promise((_, reject) =>
+		setTimeout(
+			() =>
+				reject(
+					new KnownError(
+						`Time out error: request took over ${timeout}ms. Try increasing the \`timeout\` config, or checking the OpenAI API status https://status.openai.com`,
+					),
+				),
+			timeout,
+		),
+	);
+
+	const fetchPromise = fetch(url, {
+		method: "POST",
+		headers: {
+			...headers,
+			"Content-Type": "application/json",
+		},
+		body: postContent,
 	});
+
+	const response = (await Promise.race([
+		fetchPromise,
+		timeoutPromise,
+	])) as Response;
+
+	if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	}
+
+	const data = await response.text();
+
+	return { response, data };
+};
 
 const createChatCompletion = async (
 	apiKey: string,
@@ -78,18 +72,14 @@ const createChatCompletion = async (
 		timeout,
 	);
 
-	if (
-		!response.statusCode ||
-		response.statusCode < 200 ||
-		response.statusCode > 299
-	) {
-		let errorMessage = `OpenAI API Error: ${response.statusCode} - ${response.statusMessage}`;
+	if (!response.status || response.status < 200 || response.status > 299) {
+		let errorMessage = `OpenAI API Error: ${response.status} - ${response.statusText}`;
 
 		if (data) {
 			errorMessage += `\n\n${data}`;
 		}
 
-		if (response.statusCode === 500) {
+		if (response.status === 500) {
 			errorMessage += "\n\nCheck the API status: https://status.openai.com";
 		}
 

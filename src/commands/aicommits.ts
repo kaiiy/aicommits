@@ -1,5 +1,5 @@
-import { execa } from "execa";
-import { bgCyan, black, dim, green, red } from "kolorist";
+import { execa } from "npm:execa";
+import { bgCyan, black, dim, green, red } from "npm:kolorist";
 import {
 	confirm,
 	intro,
@@ -7,21 +7,17 @@ import {
 	outro,
 	select,
 	spinner,
-} from "@clack/prompts";
+} from "npm:@clack/prompts";
 import {
 	assertGitRepo,
 	getDetectedMessage,
 	getStagedDiff,
-} from "../utils/git.js";
-import { getConfig } from "../utils/config.js";
-import { generateCommitMessage } from "../utils/openai.js";
-import { handleCliError, KnownError } from "../utils/error.js";
+} from "../utils/git.ts";
+import { getConfig } from "../utils/config.ts";
+import { generateCommitMessage } from "../utils/openai.ts";
+import { handleCliError, KnownError } from "../utils/error.ts";
 
-export default async (
-	excludeFiles: string[],
-	stageAll: boolean,
-	rawArgv: string[],
-) =>
+export default (excludeFiles: string[], stageAll: boolean, rawArgv: string[]) =>
 	(async () => {
 		intro(bgCyan(black(" aicommits ")));
 		await assertGitRepo();
@@ -49,9 +45,8 @@ export default async (
 				.join("\n")}`,
 		);
 
-		const { env } = process;
 		const config = getConfig({
-			OPENAI_KEY: env.OPENAI_KEY || env.OPENAI_API_KEY,
+			OPENAI_KEY: Deno.env.get("OPENAI_KEY") || Deno.env.get("OPENAI_API_KEY"),
 		});
 
 		const s = spinner();
@@ -105,5 +100,5 @@ export default async (
 	})().catch((error) => {
 		outro(`${red("✖")} ${error.message}`);
 		handleCliError(error);
-		process.exit(1);
+		Deno.exit(1);
 	});
