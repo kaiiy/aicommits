@@ -15,22 +15,14 @@
 		"dist"
 	],
 	"bin": {
-		"aicommits": "./dist/cli.mjs",
-		"aic": "./dist/cli.mjs"
+		"aic": "./dist/cli.mjs",
+		"aicommits": "./dist/cli.mjs"
 	},
 	"scripts": {
-		"prepare": "simple-git-hooks",
 		"build": "pkgroll --minify",
-		"lint": "eslint --cache .",
 		"type-check": "tsc",
 		"test": "tsx tests",
 		"prepack": "pnpm build && clean-pkg-json"
-	},
-	"simple-git-hooks": {
-		"pre-commit": "pnpm lint-staged"
-	},
-	"lint-staged": {
-		"*.ts": "eslint --cache"
 	},
 	"dependencies": {
 		"@dqbd/tiktoken": "^1.0.2"
@@ -53,7 +45,6 @@
 		"manten": "^0.7.0",
 		"openai": "^3.2.1",
 		"pkgroll": "^1.9.0",
-		"simple-git-hooks": "^2.8.1",
 		"tsx": "^3.12.3",
 		"typescript": "^4.9.5"
 	},
@@ -80,5 +71,10 @@
 		"patchedDependencies": {
 			"@clack/prompts@0.6.1": "patches/@clack__prompts@0.6.1.patch"
 		}
-	}
+	},
+	"volta": {
+		"node": "20.10.0",
+		"yarn": "4.0.2"
+	},
+	"packageManager": "yarn@4.0.2"
 }
