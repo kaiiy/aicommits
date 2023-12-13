@@ -88,7 +88,7 @@ export const aicommits = (
 
       if (!confirmed || isCancel(confirmed)) {
         outro("Commit cancelled");
-        // Deno.exit(0);
+        Deno.exit(0);
       }
     } else {
       const selected = await select({
@@ -98,7 +98,7 @@ export const aicommits = (
 
       if (isCancel(selected)) {
         outro("Commit cancelled");
-        // Deno.exit(0);
+        Deno.exit(0);
       }
 
       message = String(selected);
