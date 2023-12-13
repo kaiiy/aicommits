@@ -32,13 +32,13 @@ export default command(
 			const gitRepoPath = await assertGitRepo();
 			const { installUninstall: mode } = argv._;
 
-			const absoltueSymlinkPath = path.join(gitRepoPath, symlinkPath);
-			const hookExists = await fileExists(absoltueSymlinkPath);
+			const absoluteSymlinkPath = path.join(gitRepoPath, symlinkPath);
+			const hookExists = await fileExists(absoluteSymlinkPath);
 			if (mode === "install") {
 				if (hookExists) {
 					// If the symlink is broken, it will throw an error
 					const realpath = await fs
-						.realpath(absoltueSymlinkPath)
+						.realpath(absoluteSymlinkPath)
 						.catch(() => {});
 					if (realpath === hookPath) {
 						console.warn("The hook is already installed");
@@ -49,13 +49,13 @@ export default command(
 					);
 				}
 
-				await fs.mkdir(path.dirname(absoltueSymlinkPath), { recursive: true });
+				await fs.mkdir(path.dirname(absoluteSymlinkPath), { recursive: true });
 
 				if (isWindows) {
-					await fs.writeFile(absoltueSymlinkPath, windowsHook);
+					await fs.writeFile(absoluteSymlinkPath, windowsHook);
 				} else {
-					await fs.symlink(hookPath, absoltueSymlinkPath, "file");
-					await fs.chmod(absoltueSymlinkPath, 0o755);
+					await fs.symlink(hookPath, absoluteSymlinkPath, "file");
+					await fs.chmod(absoluteSymlinkPath, 0o755);
 				}
 				console.log(`${green("✔")} Hook installed`);
 				return;
@@ -68,20 +68,20 @@ export default command(
 				}
 
 				if (isWindows) {
-					const scriptContent = await fs.readFile(absoltueSymlinkPath, "utf8");
+					const scriptContent = await fs.readFile(absoluteSymlinkPath, "utf8");
 					if (scriptContent !== windowsHook) {
 						console.warn("Hook is not installed");
 						return;
 					}
 				} else {
-					const realpath = await fs.realpath(absoltueSymlinkPath);
+					const realpath = await fs.realpath(absoluteSymlinkPath);
 					if (realpath !== hookPath) {
 						console.warn("Hook is not installed");
 						return;
 					}
 				}
 
-				await fs.rm(absoltueSymlinkPath);
+				await fs.rm(absoluteSymlinkPath);
 				console.log(`${green("✔")} Hook uninstalled`);
 				return;
 			}

@@ -8,7 +8,6 @@ import {
 	type TiktokenModel,
 	// encoding_for_model,
 } from "@dqbd/tiktoken";
-import createHttpsProxyAgent from "https-proxy-agent";
 import { KnownError } from "./error.js";
 import type { CommitType } from "./config.js";
 import { generatePrompt } from "./prompt.js";

@@ -20,7 +20,6 @@ import { handleCliError, KnownError } from "../utils/error.js";
 export default async (
 	excludeFiles: string[],
 	stageAll: boolean,
-	commitType: string | undefined,
 	rawArgv: string[],
 ) =>
 	(async () => {
