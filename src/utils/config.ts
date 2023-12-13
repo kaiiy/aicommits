@@ -10,6 +10,7 @@ const commitTypes = ["", "conventional"] as const;
 
 export type CommitType = (typeof commitTypes)[number];
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 const { hasOwnProperty } = Object.prototype;
 export const hasOwn = (object: unknown, key: PropertyKey) =>
 	hasOwnProperty.call(object, key);
@@ -171,6 +172,7 @@ export const setConfigs = async (keyValues: [key: string, value: string][]) => {
 		}
 
 		const parsed = configParsers[key as ConfigKeys](value);
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		config[key as ConfigKeys] = parsed as any;
 	}
 

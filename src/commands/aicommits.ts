@@ -18,7 +18,6 @@ import { generateCommitMessage } from "../utils/openai.js";
 import { handleCliError, KnownError } from "../utils/error.js";
 
 export default async (
-	generate: number | undefined,
 	excludeFiles: string[],
 	stageAll: boolean,
 	commitType: string | undefined,
@@ -54,10 +53,6 @@ export default async (
 		const { env } = process;
 		const config = await getConfig({
 			OPENAI_KEY: env.OPENAI_KEY || env.OPENAI_API_KEY,
-			proxy:
-				env.https_proxy || env.HTTPS_PROXY || env.http_proxy || env.HTTP_PROXY,
-			generate: generate?.toString(),
-			type: commitType?.toString(),
 		});
 
 		const s = spinner();
@@ -69,7 +64,6 @@ export default async (
 				config.model,
 				config.locale,
 				staged.diff,
-				config.generate,
 				config["max-length"],
 				config.type,
 				config.timeout,

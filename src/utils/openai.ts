@@ -135,7 +135,6 @@ export const generateCommitMessage = async (
 	model: TiktokenModel,
 	locale: string,
 	diff: string,
-	completions: number,
 	maxLength: number,
 	type: CommitType,
 	timeout: number,
@@ -162,7 +161,6 @@ export const generateCommitMessage = async (
 				presence_penalty: 0,
 				max_tokens: 200,
 				stream: false,
-				n: completions,
 			},
 			timeout,
 			proxy,
@@ -171,9 +169,10 @@ export const generateCommitMessage = async (
 		return deduplicateMessages(
 			completion.choices
 				.filter((choice) => choice.message?.content)
-				.map((choice) => sanitizeMessage(choice.message!.content)),
+				.map((choice) => sanitizeMessage(choice.message?.content ?? "")),
 		);
 	} catch (error) {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		const errorAsAny = error as any;
 		if (errorAsAny.code === "ENOTFOUND") {
 			throw new KnownError(
