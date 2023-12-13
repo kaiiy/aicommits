@@ -3,6 +3,7 @@
   "packages": {
     "specifiers": {
       "npm:@clack/prompts": "npm:@clack/prompts@0.7.0",
+      "npm:@clack/prompts@0.6.1": "npm:@clack/prompts@0.6.1",
       "npm:@dqbd/tiktoken": "npm:@dqbd/tiktoken@1.0.7",
       "npm:@dqbd/tiktoken@1.0.2": "npm:@dqbd/tiktoken@1.0.2",
       "npm:cleye": "npm:cleye@1.3.2",
@@ -18,6 +19,15 @@
       "@clack/core@0.3.3": {
         "integrity": "sha512-5ZGyb75BUBjlll6eOa1m/IZBxwk91dooBWhPSL67sWcLS0zt9SnswRL0l26TVdBhb0wnWORRxUn//uH6n4z7+A==",
         "dependencies": {
+          "picocolors": "picocolors@1.0.0",
+          "sisteransi": "sisteransi@1.0.5"
+        }
+      },
+      "@clack/prompts@0.6.1": {
+        "integrity": "sha512-7KuMST/5zB7KpvfR00kcnbOaXmfN6tkJmkLpAyV2Iv2SJ7oxFbhNFvR5OQJynSKDhU8oOp/eFMK6Q0k/DXsq8A==",
+        "dependencies": {
+          "@clack/core": "@clack/core@0.3.3",
+          "is-unicode-supported": "is-unicode-supported@2.0.0",
           "picocolors": "picocolors@1.0.0",
           "sisteransi": "sisteransi@1.0.5"
         }
