@@ -1,4 +1,4 @@
-import { colors, execa, prompts } from "../deps.ts";
+import { colors, prompts } from "../deps.ts";
 import {
   assertGitRepo,
   getDetectedMessage,
@@ -20,7 +20,10 @@ export const aicommits = (
 
     if (stageAll) {
       // This should be equivalent behavior to `git commit --all`
-      await execa.execa("git", ["add", "--update"]);
+      const gitAdd = new Deno.Command("git", {
+        args: ["add", "--update"],
+      });
+      await gitAdd.output();
     }
 
     detectingFiles.start("Detecting staged files");
