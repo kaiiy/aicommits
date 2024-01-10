@@ -4,8 +4,7 @@
     "specifiers": {
       "npm:@clack/prompts@0.7.0": "npm:@clack/prompts@0.7.0",
       "npm:@dqbd/tiktoken@1.0.7": "npm:@dqbd/tiktoken@1.0.7",
-      "npm:execa@8.0.1": "npm:execa@8.0.1",
-      "npm:kolorist@1.8.0": "npm:kolorist@1.8.0"
+      "npm:execa@8.0.1": "npm:execa@8.0.1"
     },
     "npm": {
       "@clack/core@0.3.3": {
@@ -68,10 +67,6 @@
       },
       "isexe@2.0.0": {
         "integrity": "sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==",
-        "dependencies": {}
-      },
-      "kolorist@1.8.0": {
-        "integrity": "sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==",
         "dependencies": {}
       },
       "merge-stream@2.0.0": {
