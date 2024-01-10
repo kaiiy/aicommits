@@ -1,7 +1,7 @@
 import { aicommits } from "./commands/aicommits.ts";
-import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
+import { cliffy } from "./deps.ts";
 
-await new Command()
+await new cliffy.Command()
   .name("aicommits")
   .version("0.1.0")
   .description("Writes your git commit messages for you with AI")

@@ -1,7 +1,7 @@
-import { execa } from "npm:execa@8.0.1";
+import { execa } from "../deps.ts";
 
 export const assertGitRepo = async () => {
-  const { stdout, failed } = await execa(
+  const { stdout, failed } = await execa.execa(
     "git",
     ["rev-parse", "--show-toplevel"],
     { reject: false },
@@ -25,7 +25,7 @@ const filesToExclude = [
 
 export const getStagedDiff = async (excludeFiles?: string[]) => {
   const diffCached = ["diff", "--staged", "--diff-algorithm=minimal"];
-  const { stdout: files } = await execa("git", [
+  const { stdout: files } = await execa.execa("git", [
     ...diffCached,
     "--name-only",
     ...filesToExclude,
@@ -36,7 +36,7 @@ export const getStagedDiff = async (excludeFiles?: string[]) => {
     return;
   }
 
-  const { stdout: diff } = await execa("git", [
+  const { stdout: diff } = await execa.execa("git", [
     ...diffCached,
     ...filesToExclude,
     ...(excludeFiles ? excludeFiles.map(excludeFromDiff) : []),

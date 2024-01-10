@@ -1,5 +1,4 @@
-import { OpenAI } from "https://deno.land/x/openai@v4.24.2/mod.ts";
-import { get_encoding, type TiktokenModel } from "npm:@dqbd/tiktoken@1.0.7";
+import { openai, tiktoken } from "../deps.ts";
 import { generatePrompt } from "./prompt.ts";
 
 const createChatCompletion = async (
@@ -7,11 +6,11 @@ const createChatCompletion = async (
   json: {
     prompt: string;
     diff: string;
-    model: TiktokenModel;
+    model: tiktoken.TiktokenModel;
   },
 ) => {
-  const client = new OpenAI({ apiKey });
-  const enc = get_encoding("cl100k_base");
+  const client = new openai.OpenAI({ apiKey });
+  const enc = tiktoken.get_encoding("cl100k_base");
   const tokens = enc.encode(json.diff).length;
 
   if (tokens > 2048) {
@@ -52,7 +51,7 @@ const deduplicateMessages = (array: string[]) => Array.from(new Set(array));
 
 export const generateCommitMessage = async (
   apiKey: string,
-  model: TiktokenModel,
+  model: tiktoken.TiktokenModel,
   locale: string,
   diff: string,
   maxLength: number,

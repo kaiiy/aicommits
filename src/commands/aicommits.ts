@@ -1,13 +1,4 @@
-import { bgCyan, black, dim, green, red } from "npm:kolorist@1.8.0";
-import { execa } from "npm:execa@8.0.1";
-import {
-  confirm,
-  intro,
-  isCancel,
-  outro,
-  select,
-  spinner,
-} from "npm:@clack/prompts@0.7.0";
+import { colors, execa, prompts } from "../deps.ts";
 import {
   assertGitRepo,
   getDetectedMessage,
@@ -22,14 +13,14 @@ export const aicommits = (
   rawArgv: string[],
 ) =>
   (async () => {
-    intro(bgCyan(black(" aicommits ")));
+    prompts.intro(colors.bgCyan(colors.black(" aicommits ")));
     await assertGitRepo();
 
-    const detectingFiles = spinner();
+    const detectingFiles = prompts.spinner();
 
     if (stageAll) {
       // This should be equivalent behavior to `git commit --all`
-      await execa("git", ["add", "--update"]);
+      await execa.execa("git", ["add", "--update"]);
     }
 
     detectingFiles.start("Detecting staged files");
@@ -38,7 +29,7 @@ export const aicommits = (
     if (!staged) {
       detectingFiles.stop("Detecting staged files");
       throw new Error(
-        "No staged changes found. Stage your changes manually, or automatically stage all changes with the `--all` flag.",
+        "No staged changes found.  Stage your changes manually, or automatically stage all changes with the `--all` flag.",
       );
     }
 
@@ -54,7 +45,7 @@ export const aicommits = (
       OPENAI_KEY: Deno.env.get("OPENAI_KEY") || Deno.env.get("OPENAI_API_KEY"),
     });
 
-    const s = spinner();
+    const s = prompts.spinner();
     s.start("The AI is analyzing your changes");
     let messages: string[];
     try {
@@ -76,33 +67,35 @@ export const aicommits = (
     let message: string;
     if (messages.length === 1) {
       [message] = messages;
-      const confirmed = await confirm({
+      const confirmed = await prompts.confirm({
         message: `Use this commit message?\n\n   ${message}\n`,
       });
 
-      if (!confirmed || isCancel(confirmed)) {
-        outro("Commit cancelled");
+      if (!confirmed || prompts.isCancel(confirmed)) {
+        prompts.outro("Commit cancelled");
         Deno.exit(0);
       }
     } else {
-      const selected = await select({
-        message: `Pick a commit message to use: ${dim("(Ctrl+c to exit)")}`,
+      const selected = await prompts.select({
+        message: `Pick a commit message to use: ${
+          colors.dim("(Ctrl+c to exit)")
+        }`,
         options: messages.map((value) => ({ label: value, value })),
       });
 
-      if (isCancel(selected)) {
-        outro("Commit cancelled");
+      if (prompts.isCancel(selected)) {
+        prompts.outro("Commit cancelled");
         Deno.exit(0);
       }
 
       message = String(selected);
     }
 
-    await execa("git", ["commit", "-m", message, ...rawArgv]);
+    await execa.execa("git", ["commit", "-m", message, ...rawArgv]);
 
-    outro(`${green("✔")} Successfully committed!`);
+    prompts.outro(`${colors.green("✔")} Successfully committed!`);
     Deno.exit(0);
   })().catch((error) => {
-    outro(`${red("✖")} ${error.message}`);
+    prompts.outro(`${colors.red("✖")} ${error.message}`);
     Deno.exit(1);
   });

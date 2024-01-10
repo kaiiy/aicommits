@@ -1,4 +1,4 @@
-import type { TiktokenModel } from "npm:@dqbd/tiktoken@1.0.7";
+import { tiktoken } from "../deps.ts";
 
 const parseAssert = (name: string, condition: unknown, message: string) => {
   if (!condition) {
@@ -36,7 +36,7 @@ const configParsers = {
       return "gpt-3.5-turbo";
     }
 
-    return model as TiktokenModel;
+    return model as tiktoken.TiktokenModel;
   },
   timeout(timeout?: string) {
     if (!timeout) {

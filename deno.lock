@@ -143,6 +143,7 @@
     "https://deno.land/std@0.196.0/console/_rle.ts": "56668d5c44f964f1b4ff93f21c9896df42d6ee4394e814db52d6d13f5bb247c7",
     "https://deno.land/std@0.196.0/console/unicode_width.ts": "10661c0f2eeab802d16b8b85ed8825bbc573991bbfb6affed32dc1ff994f54f9",
     "https://deno.land/std@0.196.0/fmt/colors.ts": "a7eecffdf3d1d54db890723b303847b6e0a1ab4b528ba6958b8f2e754cf1b3bc",
+    "https://deno.land/std@0.211.0/fmt/colors.ts": "be082d6a6bbb2980ae7b2bf8c23c6bb2811ba90a06a9bcb861344a71784c5a99",
     "https://deno.land/x/cliffy@v1.0.0-rc.3/_utils/distance.ts": "02af166952c7c358ac83beae397aa2fbca4ad630aecfcd38d92edb1ea429f004",
     "https://deno.land/x/cliffy@v1.0.0-rc.3/command/_argument_types.ts": "ab269dacea2030f865a07c2a1e953ec437a64419a05bad1f1ddaab3f99752ead",
     "https://deno.land/x/cliffy@v1.0.0-rc.3/command/_errors.ts": "12d513ff401020287a344e0830e1297ce1c80c077ecb91e0ac5db44d04a6019c",
