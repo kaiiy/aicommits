@@ -1,6 +1,13 @@
-import { bgCyan, black, dim, green, red } from "kolorist";
-import { execa } from "execa";
-import { confirm, intro, isCancel, outro, select, spinner } from "prompts";
+import { bgCyan, black, dim, green, red } from "npm:kolorist@1.7.0";
+import { execa } from "npm:execa@7.0.0";
+import {
+  confirm,
+  intro,
+  isCancel,
+  outro,
+  select,
+  spinner,
+} from "npm:@clack/prompts@0.6.1";
 import {
   assertGitRepo,
   getDetectedMessage,

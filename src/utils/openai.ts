@@ -1,5 +1,5 @@
-import { OpenAI } from "openai";
-import { get_encoding, type TiktokenModel } from "tiktoken";
+import { OpenAI } from "https://deno.land/x/openai@v4.24.2/mod.ts";
+import { get_encoding, type TiktokenModel } from "npm:@dqbd/tiktoken@1.0.2";
 import { generatePrompt } from "./prompt.ts";
 
 const createChatCompletion = async (
