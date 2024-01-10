@@ -8,7 +8,6 @@ import {
 } from "../utils/git.ts";
 import { getConfig } from "../utils/config.ts";
 import { generateCommitMessage } from "../utils/openai.ts";
-import { handleCliError, KnownError } from "../utils/error.ts";
 
 export const aicommits = (
   excludeFiles: string[],
@@ -31,7 +30,7 @@ export const aicommits = (
 
     if (!staged) {
       detectingFiles.stop("Detecting staged files");
-      throw new KnownError(
+      throw new Error(
         "No staged changes found. Stage your changes manually, or automatically stage all changes with the `--all` flag.",
       );
     }
@@ -64,7 +63,7 @@ export const aicommits = (
     }
 
     if (messages.length === 0) {
-      throw new KnownError("No commit messages were generated. Try again.");
+      throw new Error("No commit messages were generated. Try again.");
     }
 
     let message: string;
@@ -98,6 +97,5 @@ export const aicommits = (
     Deno.exit(0);
   })().catch((error) => {
     outro(`${red("✖")} ${error.message}`);
-    handleCliError(error);
     Deno.exit(1);
   });

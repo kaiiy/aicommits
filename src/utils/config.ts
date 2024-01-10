@@ -1,16 +1,15 @@
 import type { TiktokenModel } from "tiktoken";
-import { KnownError } from "./error.ts";
 
 const parseAssert = (name: string, condition: unknown, message: string) => {
   if (!condition) {
-    throw new KnownError(`Invalid config property ${name}: ${message}`);
+    throw new Error(`Invalid config property ${name}: ${message}`);
   }
 };
 
 const configParsers = {
   OPENAI_KEY(key?: string) {
     if (!key) {
-      throw new KnownError(
+      throw new Error(
         "Please set your OpenAI API key via `aicommits config set OPENAI_KEY=<your token>`",
       );
     }

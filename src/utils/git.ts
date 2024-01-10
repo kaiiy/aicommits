@@ -1,5 +1,4 @@
 import { execa } from "execa";
-import { KnownError } from "./error.ts";
 
 export const assertGitRepo = async () => {
   const { stdout, failed } = await execa(
@@ -9,7 +8,7 @@ export const assertGitRepo = async () => {
   );
 
   if (failed) {
-    throw new KnownError("The current directory must be a Git repository!");
+    throw new Error("The current directory must be a Git repository!");
   }
 
   return stdout;
@@ -25,7 +24,7 @@ const filesToExclude = [
 ].map(excludeFromDiff);
 
 export const getStagedDiff = async (excludeFiles?: string[]) => {
-  const diffCached = ["diff", "--cached", "--diff-algorithm=minimal"];
+  const diffCached = ["diff", "--staged", "--diff-algorithm=minimal"];
   const { stdout: files } = await execa("git", [
     ...diffCached,
     "--name-only",

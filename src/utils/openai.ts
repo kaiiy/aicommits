@@ -1,22 +1,30 @@
 import { OpenAI } from "openai";
-import { TiktokenModel } from "tiktoken";
-import { KnownError } from "./error.ts";
+import { get_encoding, type TiktokenModel } from "tiktoken";
 import { generatePrompt } from "./prompt.ts";
 
 const createChatCompletion = async (
   apiKey: string,
   json: {
-    content: string;
+    prompt: string;
     diff: string;
     model: TiktokenModel;
   },
 ) => {
   const client = new OpenAI({ apiKey });
+  const enc = get_encoding("cl100k_base");
+  const tokens = enc.encode(json.diff).length;
+
+  if (tokens > 2048) {
+    throw new Error(
+      `Your diff is too long (${tokens} tokens). Please try again with a shorter diff.`,
+    );
+  }
+
   const chatCompletion = await client.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: json.content,
+        content: json.prompt,
       },
       {
         role: "user",
@@ -49,28 +57,20 @@ export const generateCommitMessage = async (
   diff: string,
   maxLength: number,
 ) => {
-  try {
-    const completion = await createChatCompletion(
-      apiKey,
-      {
-        content: generatePrompt(locale, maxLength),
-        diff,
-        model,
-      },
-    );
+  const prompt = generatePrompt(locale, maxLength);
 
-    return deduplicateMessages(
-      completion.choices
-        .filter((choice) => choice.message?.content)
-        .map((choice) => sanitizeMessage(choice.message?.content ?? "")),
-    );
-  } catch (error) {
-    if (error.code === "ENOTFOUND") {
-      throw new KnownError(
-        `Error connecting to ${error.hostname} (${error.syscall}). Are you connected to the internet?`,
-      );
-    }
+  const completion = await createChatCompletion(
+    apiKey,
+    {
+      prompt,
+      diff,
+      model,
+    },
+  );
 
-    throw error;
-  }
+  return deduplicateMessages(
+    completion.choices
+      .filter((choice) => choice.message?.content)
+      .map((choice) => sanitizeMessage(choice.message?.content ?? "")),
+  );
 };
