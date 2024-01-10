@@ -1,4 +1,4 @@
-import { execa } from "npm:execa@7.0.0";
+import { execa } from "npm:execa@8.0.1";
 
 export const assertGitRepo = async () => {
   const { stdout, failed } = await execa(
