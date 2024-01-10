@@ -1,5 +1,5 @@
 import { aicommits } from "./commands/aicommits.ts";
-import { Command } from "./deps.ts";
+import { Command } from "cliffy";
 
 await new Command()
   .name("aicommits")

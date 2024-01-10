@@ -1,4 +1,4 @@
-import { execa } from "../deps.ts";
+import { execa } from "execa";
 import { KnownError } from "./error.ts";
 
 export const assertGitRepo = async () => {

@@ -1,17 +1,6 @@
-import {
-  bgCyan,
-  black,
-  confirm,
-  dim,
-  execa,
-  green,
-  intro,
-  isCancel,
-  outro,
-  red,
-  select,
-  spinner,
-} from "../deps.ts";
+import { bgCyan, black, dim, green, red } from "kolorist";
+import { execa } from "execa";
+import { confirm, intro, isCancel, outro, select, spinner } from "prompts";
 import {
   assertGitRepo,
   getDetectedMessage,
@@ -69,7 +58,6 @@ export const aicommits = (
         config.locale,
         staged.diff,
         config["max-length"],
-        config.timeout,
       );
     } finally {
       s.stop("Changes analyzed");

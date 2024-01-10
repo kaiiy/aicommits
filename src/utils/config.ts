@@ -1,4 +1,4 @@
-import type { TiktokenModel } from "../deps.ts";
+import type { TiktokenModel } from "tiktoken";
 import { KnownError } from "./error.ts";
 
 const parseAssert = (name: string, condition: unknown, message: string) => {

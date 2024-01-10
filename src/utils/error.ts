@@ -1,4 +1,4 @@
-import { dim } from "../deps.ts";
+import { dim } from "kolorist";
 export class KnownError extends Error {}
 
 const indent = "    ";
