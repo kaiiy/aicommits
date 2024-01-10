@@ -91,7 +91,10 @@ export const aicommits = (
       message = String(selected);
     }
 
-    await execa.execa("git", ["commit", "-m", message, ...rawArgv]);
+    const gitCommit = new Deno.Command("git", {
+      args: ["commit", "-m", message, ...rawArgv],
+    });
+    await gitCommit.output();
 
     prompts.outro(`${colors.green("✔")} Successfully committed!`);
     Deno.exit(0);
