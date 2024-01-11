@@ -1,17 +1,14 @@
-import { execa } from "../deps.ts";
+export const assertGitRepo = async (): Promise<string> => {
+  const gitRevParse = new Deno.Command("git", {
+    args: ["rev-parse", "--show-toplevel"],
+  });
+  const { stdout, code } = await gitRevParse.output();
 
-export const assertGitRepo = async () => {
-  const { stdout, failed } = await execa.execa(
-    "git",
-    ["rev-parse", "--show-toplevel"],
-    { reject: false },
-  );
-
-  if (failed) {
+  if (code !== 0) {
     throw new Error("The current directory must be a Git repository!");
   }
 
-  return stdout;
+  return new TextDecoder().decode(stdout);
 };
 
 const excludeFromDiff = (path: string) => `:(exclude)${path}`;
@@ -25,26 +22,32 @@ const filesToExclude = [
 
 export const getStagedDiff = async (excludeFiles?: string[]) => {
   const diffCached = ["diff", "--staged", "--diff-algorithm=minimal"];
-  const { stdout: files } = await execa.execa("git", [
-    ...diffCached,
-    "--name-only",
-    ...filesToExclude,
-    ...(excludeFiles ? excludeFiles.map(excludeFromDiff) : []),
-  ]);
+  const gitDiffFiles = new Deno.Command("git", {
+    args: [
+      ...diffCached,
+      "--name-only",
+      ...filesToExclude,
+      ...(excludeFiles ? excludeFiles.map(excludeFromDiff) : []),
+    ],
+  });
+  const { stdout: files } = await gitDiffFiles.output();
 
   if (!files) {
     return;
   }
 
-  const { stdout: diff } = await execa.execa("git", [
-    ...diffCached,
-    ...filesToExclude,
-    ...(excludeFiles ? excludeFiles.map(excludeFromDiff) : []),
-  ]);
+  const gitDiff = new Deno.Command("git", {
+    args: [
+      ...diffCached,
+      ...filesToExclude,
+      ...(excludeFiles ? excludeFiles.map(excludeFromDiff) : []),
+    ],
+  });
+  const { stdout: diff } = await gitDiff.output();
 
   return {
-    files: String(files).split("\n"),
-    diff,
+    files: (new TextDecoder().decode(files)).split("\n"),
+    diff: new TextDecoder().decode(diff),
   };
 };
 
