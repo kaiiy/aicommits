@@ -3,7 +3,7 @@ import { cliffy } from "./deps.ts";
 
 await new cliffy.Command()
   .name("aicommits")
-  .version("0.1.0")
+  .version("2.0.0")
   .description("Writes your git commit messages for you with AI")
   .option(
     "-x, --exclude <exclude:string[]>",

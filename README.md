@@ -14,7 +14,7 @@
 3. Install the CLI:
 
    ```sh
-   $ deno install --allow-read --allow-env --allow-run --allow-net --allow-run --name aicommits https://raw.githubusercontent.com/kaiiy/aicommits/develop/src/cli.ts
+   $ brew install kaiiy/tap/aicommits
    ```
 
 ## Usage
