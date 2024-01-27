@@ -4,7 +4,7 @@ import {
   getDetectedMessage,
   getStagedDiff,
 } from "../utils/git.ts";
-import { getConfig } from "../utils/config.ts";
+import { ValidConfig } from "../utils/config.ts";
 import { generateCommitMessage } from "../utils/openai.ts";
 
 export const aicommits = (
@@ -44,9 +44,14 @@ export const aicommits = (
       }`,
     );
 
-    const config = getConfig({
-      OPENAI_KEY: Deno.env.get("OPENAI_KEY") || Deno.env.get("OPENAI_API_KEY"),
-    });
+    const config: ValidConfig = {
+      OPENAI_KEY: Deno.env.get("OPENAI_KEY") ||
+        Deno.env.get("OPENAI_API_KEY") || "",
+      locale: "en",
+      model: "gpt-3.5-turbo",
+      timeout: 10_000,
+      "max-length": 50,
+    };
 
     const s = prompts.spinner();
     s.start("The AI is analyzing your changes");
