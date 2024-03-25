@@ -104,9 +104,9 @@ export const aicommits = (
     });
     await gitCommit.output();
 
-    prompts.outro(`${colors.green("✔")} Successfully committed!`);
+    prompts.outro(`${colors.green("✓")} Successfully committed!`);
     Deno.exit(0);
   })().catch((error) => {
-    prompts.outro(`${colors.red("✖")} ${error.message}`);
+    prompts.outro(`${colors.red("✗")} ${error.message}`);
     Deno.exit(1);
   });
