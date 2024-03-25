@@ -32,3 +32,7 @@ For example, you can stage all changes in tracked files with as you commit:
 ```sh
 $ aicommits --all # or -a
 ```
+
+## Development
+
+
