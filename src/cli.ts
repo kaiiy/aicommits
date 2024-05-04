@@ -1,9 +1,11 @@
 import { aicommits } from "./commands/aicommits.ts";
 import { cliffy } from "./deps.ts";
 
+const VERSION = "2.0.4";
+
 await new cliffy.Command()
 	.name("aicommits")
-	.version("2.0.3")
+	.version(VERSION)
 	.description("Writes your git commit messages for you with AI")
 	.option(
 		"-x, --exclude <exclude:string[]>",
