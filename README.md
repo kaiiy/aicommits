@@ -35,4 +35,6 @@ $ aicommits --all # or -a
 
 ## Development
 
+## Update the version
 
+Rewrite the version in the `./src/cli.ts` and `./bin/aicommits` files.
