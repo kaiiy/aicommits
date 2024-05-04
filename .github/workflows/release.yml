@@ -1,6 +1,9 @@
 name: Release
 
-on: push
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   release:
@@ -32,6 +35,7 @@ jobs:
 
       - uses: peter-evans/repository-dispatch@v3
         with:
+          token: ${{ secrets.PAT }}
           repository: kaiiy/homebrew-tap
           event-type: update-brew
           client-payload: '{ "formula": "aicommits", "url": "https://github.com/kaiiy/aicommits/archive/refs/tags/${{ steps.version.outputs.version }}.tar.gz", "sha256": "${{ steps.checksum.outputs.sha256 }}" }'
