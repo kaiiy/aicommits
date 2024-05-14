@@ -1,7 +1,7 @@
 import { aicommits } from "./commands/aicommits.ts";
 import { cliffy } from "./deps.ts";
 
-const VERSION = "2.0.4";
+const VERSION = "2.1.0";
 
 await new cliffy.Command()
 	.name("aicommits")
