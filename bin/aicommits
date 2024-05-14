@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec deno run --allow-read --allow-env --allow-net --allow-run --no-config 'https://raw.githubusercontent.com/kaiiy/aicommits/v2.0.4/src/cli.ts' "$@"
+exec deno run --allow-read --allow-env --allow-net --allow-run --no-config 'https://raw.githubusercontent.com/kaiiy/aicommits/v2.1.0/src/cli.ts' "$@"
