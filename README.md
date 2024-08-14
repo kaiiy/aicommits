@@ -32,9 +32,3 @@ For example, you can stage all changes in tracked files with as you commit:
 ```sh
 $ aicommits --all # or -a
 ```
-
-## Development
-
-## Update the version
-
-Rewrite the version in the `./src/cli.ts` and `./bin/aicommits` files.
