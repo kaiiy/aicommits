@@ -48,7 +48,7 @@ export const aicommits = (
       OPENAI_KEY: Deno.env.get("OPENAI_KEY") ||
         Deno.env.get("OPENAI_API_KEY") || "",
       locale: "en",
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       timeout: 10_000,
       "max-length": 50,
     };

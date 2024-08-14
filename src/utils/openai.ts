@@ -6,11 +6,11 @@ const createChatCompletion = async (
   json: {
     prompt: string;
     diff: string;
-    model: tiktoken.TiktokenModel;
+    model: openai.OpenAI.ChatModel;
   },
 ) => {
   const client = new openai.OpenAI({ apiKey });
-  const enc = tiktoken.get_encoding("cl100k_base");
+  const enc = tiktoken.get_encoding("o200k_base");
   const tokens = enc.encode(json.diff).length;
 
   if (tokens > 2048) {
@@ -48,7 +48,7 @@ const deduplicateMessages = (array: string[]) => Array.from(new Set(array));
 
 export const generateCommitMessage = async (
   apiKey: string,
-  model: tiktoken.TiktokenModel,
+  model: openai.OpenAI.ChatModel,
   locale: string,
   diff: string,
   maxLength: number,

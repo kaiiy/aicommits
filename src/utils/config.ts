@@ -1,9 +1,9 @@
-import { tiktoken } from "../deps.ts";
+import { openai } from "../deps.ts";
 
 export type ValidConfig = {
   OPENAI_KEY: string;
   locale: string;
-  model: tiktoken.TiktokenModel;
+  model: openai.OpenAI.ChatModel;
   timeout: number;
   "max-length": number;
 };
