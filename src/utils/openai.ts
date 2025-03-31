@@ -13,7 +13,7 @@ const createChatCompletion = async (
   const enc = tiktoken.get_encoding("o200k_base");
   const tokens = enc.encode(json.diff).length;
 
-  if (tokens > 2048) {
+  if (tokens > 4096) {
     throw new Error(
       `Your diff is too long (${tokens} tokens). Please try again with a shorter diff.`,
     );
@@ -31,8 +31,8 @@ const createChatCompletion = async (
       },
     ],
     model: json.model,
-    temperature: 0,
-    max_tokens: 200,
+    reasoning_effort: "medium",
+    max_completion_tokens: 25000,
     stream: false,
   });
   return chatCompletion;
